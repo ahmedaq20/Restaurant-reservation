@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::view('dashboard', 'dashboard')
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
 Route::middleware(['auth','admin'])->name('admin.')->prefix('admin')->group(function () {
-        Route::get('/admin',[AdminController::class,'index']);
+        Route::get('/dashboard',[AdminController::class,'index'])->name('dashboard');
     });
 
 require __DIR__.'/auth.php';
