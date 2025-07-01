@@ -1,17 +1,18 @@
-<x-admin-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.admin')
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in! احمد") }}
-                </div>
+@section('page-title', 'Dashboard')
+
+@section('content')
+ <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="py-4 mb-6">Page 1</h4>
+              <p>
+                Sample page.<br />For more layout options, <a href="" target="_blank" class="fw-medium"></a> refer
+                <a
+                  href="https://demos.pixinvent.com/vuexy-html-admin-template/documentation//layouts.html"
+                  target="_blank"
+                  class="fw-medium"
+                  >Layout docs</a
+                >.
+              </p>
             </div>
-        </div>
-    </div>
-</x-admin-layout>
+@endsection
