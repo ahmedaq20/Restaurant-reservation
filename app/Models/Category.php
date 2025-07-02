@@ -15,6 +15,6 @@ class Category extends Model
             return asset('storage/' . $this->image);
         }
         // Change the path to your default image in public folder
-        return asset('images/default-category.webp');
+        return asset('images/default-image.png');
     }
 }

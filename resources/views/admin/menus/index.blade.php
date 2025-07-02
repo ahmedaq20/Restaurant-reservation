@@ -61,8 +61,8 @@
                         <td>{{ $menu->name }}</td>
                         <td>{{ $menu->description }}</td>
                         <td>
-                            @if ($menu->image)
-                                <img src="{{ asset('storage/' . $menu->image) }}" width="50">
+                            @if ($menu->image_url)
+                                <img src="{{ $menu->image_url }}" width="50">
                             @endif
                         </td>
                         <td>{{ number_format($menu->price, 2) }} $</td>
