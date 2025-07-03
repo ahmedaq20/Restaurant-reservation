@@ -84,8 +84,7 @@
                         <span class="app-brand-logo demo" style="width: 50px; height: 50px;">
                             <img src="{{ asset('assets/img/logo.png') }}" alt="logo" width="50">
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bold" style="font-size: 11pt">مسار للإغاثة
-                            والتنمية</span>
+                        <span class="app-brand-text demo menu-text fw-bold" style="font-size: 11pt"> Reservation Table </span>
                     </a>
 
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -99,18 +98,60 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboards -->
 
-                    <li class="menu-item active open">
-                        <a href="javascript:void(0);" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                            <div data-i18n="Dashboards">Dashboards</div>
-                            <div class="badge bg-danger rounded-pill ms-auto">5</div>
-                        </a>
-
-
-                    </li>
-
                     <!-- Layouts -->
-                    <li class="menu-item">
+                    @foreach (config('sidebar') as $item)
+                        @if ($item['permission'])
+                            @can($item['permission'])
+                                <li class="menu-item {{ Route::currentRouteName() === $item['route'] ? 'active' : '' }}">
+                                    <a href="{{ $item['route'] ? route($item['route']) : '' }}"
+                                        class="menu-link {{ count($item['children']) ? 'menu-toggle' : '' }}">
+                                        <i class="menu-icon tf-icons ti {{ $item['icon'] }}"></i>
+                                        <div data-i18n="{{ $item['label'] }}">{{ $item['label'] }}</div>
+                                    </a>
+
+                                    @if (count($item['children']))
+                                        <ul class="menu-sub">
+                                            @foreach ($item['children'] as $child)
+                                                <li
+                                                    class="menu-item {{ Route::currentRouteName() === $child['route'] ? 'active' : '' }}">
+                                                    <a href="{{ $child['route'] ? route($child['route']) : '' }}"
+                                                        class="menu-link">
+                                                        <div data-i18n="{{ $child['label'] }}">{{ $child['label'] }}
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endcan
+                        @else
+                            <li class="menu-item {{ Route::currentRouteName() === $item['route'] ? 'active' : '' }}">
+                                <a href="{{ $item['route'] ? route($item['route']) : '' }}"
+                                    class="menu-link {{ count($item['children']) ? 'menu-toggle' : '' }}">
+                                    <i class="menu-icon tf-icons ti {{ $item['icon'] }}"></i>
+                                    <div data-i18n="{{ $item['label'] }}">{{ $item['label'] }}</div>
+                                </a>
+
+                                @if (count($item['children']))
+                                    <ul class="menu-sub">
+                                        @foreach ($item['children'] as $child)
+                                            <li
+                                                class="menu-item {{ Route::currentRouteName() === $child['route'] ? 'active' : '' }}">
+                                                <a href="{{ $child['route'] ? route($child['route']) : '' }}"
+                                                    class="menu-link">
+                                                    <div data-i18n="{{ $child['label'] }}">{{ $child['label'] }}
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endif
+                    @endforeach
+
+                    {{-- <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-components"></i>
                             <div data-i18n="Category">Category</div>
@@ -133,7 +174,7 @@
                             <i class="menu-icon tf-icons ti ti-id"></i>
                             <div data-i18n="Reservation">Reservation</div>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </aside>
             <!-- / Menu -->
