@@ -12,7 +12,8 @@ class TableController extends Controller
      */
     public function index()
     {
-        //
+        $tables = \App\Models\Table::all();
+        return view('admin.tables.index', compact('tables'));
     }
 
     /**
@@ -20,7 +21,8 @@ class TableController extends Controller
      */
     public function create()
     {
-        //
+        $table = new \App\Models\Table();
+        return view('admin.tables.form', compact('table'));
     }
 
     /**
@@ -28,7 +30,14 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'guest_number' => 'required|integer|min:1',
+            'status' => 'required|in:available,reserved,occupied',
+            'location' => 'nullable|string|max:255',
+        ]);
+        \App\Models\Table::create($data);
+        return redirect()->route('admin.tables.index')->with('success', 'Table created!');
     }
 
     /**
@@ -42,24 +51,32 @@ class TableController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(\App\Models\Table $table)
     {
-        //
+        return view('admin.tables.form', compact('table'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, \App\Models\Table $table)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'guest_number' => 'required|integer|min:1',
+            'status' => 'required|in:available,reserved,occupied',
+            'location' => 'nullable|string|max:255',
+        ]);
+        $table->update($data);
+        return redirect()->route('admin.tables.index')->with('updated', 'Table updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(\App\Models\Table $table)
     {
-        //
+        $table->delete();
+        return redirect()->route('admin.tables.index')->with('deleted', 'Table deleted!');
     }
 }
