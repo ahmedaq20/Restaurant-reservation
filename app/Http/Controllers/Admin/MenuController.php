@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
@@ -22,7 +23,10 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('admin.menus.form', ['menu' => new Menu()]);
+        return view('admin.menus.form', [
+            'menu' => new Menu(),
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
@@ -41,7 +45,9 @@ class MenuController extends Controller
             $data['image'] = $request->file('image')->store('menus', 'public');
         }
 
-        Menu::create($data);
+      $menu=Menu::create($data);
+    
+      $menu->categories()->sync($request->input('categories', []));
 
         return redirect()->route('admin.menus.index')->with('success', 'Menu created!');
     }
@@ -59,7 +65,8 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        return view('admin.menus.form', compact('menu'));
+        $categories = Category::all();
+        return view('admin.menus.form', compact('menu', 'categories'));
     }
 
     /**
@@ -79,7 +86,8 @@ class MenuController extends Controller
         }
 
         $menu->update($data);
-
+        $menu->categories()->sync($request->input('categories', []));
+        
         return redirect()->route('admin.menus.index')->with('updated', 'Menu updated!');
     }
 

@@ -1,6 +1,22 @@
 @extends('layouts.admin')
 @section('page-title', $menu->exists ? 'Update Menu' : 'Create Menu')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+@endsection
+@push('js')
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script>
+        $(function() {
+            $('.select2').select2({
+                placeholder: "Select categories",
+                allowClear: true
+            });
+        });
+    </script>
+@endpush
+
 @section('content')
     <div class="container">
         <h2>{{ $menu->exists ? 'Update Menu' : 'Create Menu' }}</h2>
@@ -24,12 +40,32 @@
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="mb-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label" for="categories">Categories</label>
+                    <select name="categories[]" id="categories" class="select2 form-select" data-allow-clear="true"
+                        required>
+                        <option value="">Select</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ isset($menu) && $menu->categories->contains($category->id) ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('categories')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="my-3">
                 <label>Image (optional)</label>
                 <input type="file" name="image" class="form-control" id="imageInput" accept="image/*">
                 <div>
-                    <img id="imagePreview" src="{{ $menu->image && $menu->exists ? asset('storage/' . $menu->image) : '' }}"
-                        alt="Preview" class="img-thumbnail mt-2" width="100"
+                    <img id="imagePreview"
+                        src="{{ $menu->image && $menu->exists ? asset('storage/' . $menu->image) : '' }}" alt="Preview"
+                        class="img-thumbnail mt-2" width="100"
                         style="{{ $menu->image && $menu->exists ? '' : 'display:none;' }}">
                 </div>
             </div>

@@ -59,7 +59,8 @@
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/cards-advance.css') }}" />
 
-    @yield('css')
+    {{-- @yield('css') --}}
+    @stack('css')
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
@@ -82,9 +83,9 @@
                 <div class="app-brand demo">
                     <a href="/" class="app-brand-link">
                         <span class="app-brand-logo demo" style="width: 50px; height: 50px;">
-                            <img src="{{ asset('assets/img/logo.png') }}" alt="logo" width="50">
+                            <img src="{{ asset('assets/img/SofraLogo.png') }}" alt="logo" width="50">
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bold" style="font-size: 11pt"> Reservation Table </span>
+                        <span class="app-brand-text demo menu-text fw-bold" style="font-size: 11pt"> SoFra Restaurant  </span>
                     </a>
 
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -660,6 +661,7 @@
     <script src="{{ asset('assets/vendor/libs/i18n/i18n.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
+     <script src="{{ asset('assets/assets/js/form-layouts.js') }}"></script>
 
     <!-- endbuild -->
 
@@ -679,7 +681,7 @@
 
     <!-- Page JS -->
 
-    @yield('js')
+    @stack('js')
 
     <script></script>
 

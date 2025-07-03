@@ -17,4 +17,9 @@ class Category extends Model
         // Change the path to your default image in public folder
         return asset('images/default-image.png');
     }
+
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class);
+    }
 }
