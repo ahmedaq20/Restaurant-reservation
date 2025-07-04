@@ -38,8 +38,10 @@
                         <td>{{ $reservation->guest_number }}</td>
                         <td>{{ $reservation->table?->name ?? '-' }}</td>
                         <td>
-                            <a href="{{ route('admin.reservations.edit', $reservation) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('admin.reservations.destroy', $reservation) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('admin.reservations.edit', $reservation) }}"
+                                class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('admin.reservations.destroy', $reservation) }}" method="POST"
+                                style="display:inline;">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
                             </form>

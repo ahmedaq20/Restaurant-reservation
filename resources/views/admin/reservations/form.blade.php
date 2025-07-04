@@ -50,7 +50,7 @@
                 <input type="datetime-local" name="res_date"
                     value="{{ old('res_date', $reservation->res_date ? \Carbon\Carbon::parse($reservation->res_date)->format('Y-m-d\TH:i') : '') }}"
                     class="form-control" required>
-                <small class="text-muted">Reservation must be today, between 16:00 and 23:00</small>
+                <small class="text-muted">Reservation must be between 16:00 and 23:00</small>
                 @error('res_date')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror

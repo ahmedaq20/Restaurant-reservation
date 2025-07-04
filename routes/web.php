@@ -3,15 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\TableController;
+use App\Http\Controllers\Front\WelcomeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ReservationController;
-use App\Http\Controllers\Admin\TableController;
-
-Route::view('/', 'welcome');
+// 
+// Route::view('/', 'welcome');
 
 // Route::view('dashboard', 'dashboard')
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
+
+Route::get('/',[WelcomeController::class,'index']);
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
