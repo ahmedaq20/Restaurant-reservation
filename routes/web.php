@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ReservationController;
 //     ->name('dashboard');
 
 Route::get('/',[WelcomeController::class,'index']);
+Route::get('/form',[WelcomeController::class,'form']);
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -28,4 +29,15 @@ Route::middleware(['auth','admin'])->name('admin.')->prefix('admin')->group(func
         Route::resource('reservations', ReservationController::class)->names('reservations');
     });
 
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+
+// Authentication Routes in breeze
 require __DIR__.'/auth.php';

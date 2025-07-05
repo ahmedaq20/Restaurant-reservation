@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\View\Components\Layouts\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+        // Blade::component('layouts.auth', Auth::class);
+        // Blade::component('layouts.guest', \App\View\Components\GuestLayout::class);
     }
 }

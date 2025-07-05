@@ -4,6 +4,24 @@
 
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('deleted'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                {{ session('deleted') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('info'))
+            <div class="alert alert-info alert-dismissible" role="alert">
+                {{ session('info') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <h2>{{ $reservation->exists ? 'Update Reservation' : 'Create Reservation' }}</h2>
         <form
             action="{{ $reservation->exists ? route('admin.reservations.update', $reservation) : route('admin.reservations.store') }}"
@@ -66,13 +84,18 @@
             <div class="mb-3">
                 <label>Table</label>
                 <select name="table_id" class="form-select">
-                    <option value="">Select</option>
-                    @foreach ($tables as $table)
-                        <option value="{{ $table->id }}"
-                            {{ old('table_id', $reservation->table_id) == $table->id ? 'selected' : '' }}>
-                            {{ $table->name }}
-                        </option>
-                    @endforeach
+                    @if ($tables->Count() <= 0)
+                        <option value="" disabled>Ther is no table available now</option>
+                    @else
+                        <option value="" disabled>Select</option>
+                        @foreach ($tables as $table)
+                            <option value="{{ $table->id }}"
+                                {{ old('table_id', $reservation->table_id) == $table->id ? 'selected' : '' }}>
+                                {{ $table->name }} ({{ $table->guest_number }} guests)
+                            </option>
+                        @endforeach
+                    @endif
+
                 </select>
                 @error('table_id')
                     <small class="text-danger">{{ $message }}</small>
