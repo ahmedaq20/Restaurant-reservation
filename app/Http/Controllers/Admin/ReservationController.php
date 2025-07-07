@@ -40,7 +40,7 @@ class ReservationController extends Controller
         $this->validateReservation($request);
          $table= Table::findOrFail($request->table_id);
         if($table->guest_number < $request->guest_number){
-            return back()->with('info','The number is more than table capacity?');
+            return back()->with('info', 'Please choose a table according to Guest Number.');
         }
         $reservation_date = Carbon::parse($request->res_date);
         foreach($table->reservations as $reservation_table){
@@ -49,9 +49,6 @@ class ReservationController extends Controller
             }
         }
          Reservation::create($request->all());
-         $table->update([
-            'status' => TablesStatus::RESERVED,
-         ]);
         return redirect()->route('admin.reservations.index')->with('success', 'Reservation created!');
     }
 
@@ -79,8 +76,8 @@ class ReservationController extends Controller
     {
         $this->validateReservation($request);
         $table= Table::fisrtOrFail($request->table_id);
-        if($table->guest_number > $request->guest_number){
-            return back()->with('info', 'Plecs chose table according to Guest Number?');
+        if($table->guest_number < $request->guest_number){
+            return back()->with('info', 'Please choose a table according to Guest Number.');
         }
         // if($request->res_date == $request->guest_number){
         //     return back()->with('info', 'Plecs chose table according to Guest Number?');
@@ -99,8 +96,80 @@ class ReservationController extends Controller
         return redirect()->route('admin.reservations.index')->with('deleted', 'Reservation deleted!');
     }
 
-    protected function validateReservation(Request $request)
+    
+    public function step1(){
+        $reservation = session('reservation_data', []);
+    return view('front.step1', compact('reservation'));   
+ }
+
+       public function postStep1(Request $request){
+        $validate = $request->validate([
+            'first_name'    => 'required|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'email'         => 'required|email|max:255',
+            'tel_number'    => 'required|string|max:20',
+            'res_date'      => [
+                'required',
+                'date_format:Y-m-d\TH:i',
+                function ($attribute, $value, $fail) {
+                    $date = Carbon::createFromFormat('Y-m-d\TH:i', $value);
+                    $now = Carbon::now()->startOfDay();
+                    $max = Carbon::now()->addWeek()->endOfDay();
+                    if ($date->lt($now) || $date->gt($max)) {
+                        $fail('Reservation must be from today up to one week ahead.');
+                    }
+                    if ($date->hour < 16 || $date->hour > 23) {
+                        $fail('Reservation time must be between 16:00 and 23:00.');
+                    }
+                }
+            ],
+            'guest_number'  => 'required|integer|min:1',
+        ]);
+        
+        session(['reservation_data'=> $validate ]);
+        return redirect()->route('reservation.step2');
+    }
+
+    public function step2()
     {
+        $reservation = session('reservation_data'); // get all step1 data
+        if (!$reservation || !isset($reservation['guest_number'])) {
+            // If no session, redirect to step1
+            return redirect()->route('reservation.step1')->with('info', 'Please complete step 1 first.');
+        }
+        
+         $tables = Table::where('guest_number', '>=', $reservation['guest_number'])
+        ->whereDoesntHave('reservations', function($query) use ($reservation) {
+               $query->whereDate('res_date', Carbon::parse($reservation['res_date'])->toDateString());
+        })->get();
+
+        if ($tables->isEmpty()) {
+        return redirect()->route('reservation.step1')
+            ->with('info', 'All tables are reserved for this day. Please choose another day.');
+    }
+
+        return view('front.step2', compact('tables', 'reservation'));
+    }
+
+      
+  
+
+       public function postStep2(Request $request){
+            $request->validate([
+                'table_id' => 'required',
+            ]);
+            $finalReservationData = $request->session()->get('reservation_data');
+
+            $finalReservationData['table_id'] = $request->table_id;
+            // dd(session());
+            Reservation::create($finalReservationData);
+            $request->session()->forget('reservation_data');
+
+    return redirect()->route('welcome')->with('success', 'Your reservation was successful!');
+    }
+
+  protected function validateReservation(Request $request)
+    {   
         $request->validate([
             'first_name'    => 'required|string|max:255',
             'last_name'     => 'required|string|max:255',

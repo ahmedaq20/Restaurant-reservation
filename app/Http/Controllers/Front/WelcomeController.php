@@ -13,10 +13,10 @@ class WelcomeController extends Controller
     }
 
 
-    public function form(){
-        $tables= Table::all();
-        return view('front.form',compact('tables'));
-    }
+    // public function form(){
+    //     $tables= Table::all();
+    //     return view('front.form',compact('tables'));
+    // }
 
-    
+
 }

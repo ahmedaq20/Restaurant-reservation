@@ -1,4 +1,3 @@
-
 @extends('layouts.guest')
 @section('page-title', 'title')
 
@@ -671,4 +670,34 @@
             </div>
         </div>
         <!-- Testimonial End -->
+
+        <!-- Reservation Success Modal -->
+<div class="modal fade" id="reservationSuccessModal" tabindex="-1" aria-labelledby="reservationSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background: #212529; color: #fff;">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="reservationSuccessModalLabel" style="color: #0d6efd;">
+            <i class="fa fa-check-circle me-2" style="color: #28a745;"></i>
+            Reservation Complete
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="font-size: 1.2rem;">
+        <span style="color: #ffc107;">{{ session('success') }}</span>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="color: #212529;">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var myModal = new bootstrap.Modal(document.getElementById('reservationSuccessModal'));
+            myModal.show();
+        });
+    </script>
+@endif
 @endsection

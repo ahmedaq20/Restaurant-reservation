@@ -14,8 +14,7 @@ use App\Http\Controllers\Admin\ReservationController;
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-Route::get('/',[WelcomeController::class,'index']);
-Route::get('/form',[WelcomeController::class,'form']);
+Route::get('/',[WelcomeController::class,'index'])->name('welcome');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -37,6 +36,11 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
+
+Route::get('/reservation/step1', [ReservationController::class, 'step1'])->name('reservation.step1');
+Route::post('/reservation/step1', [ReservationController::class, 'postStep1']);
+Route::get('/reservation/step2', [ReservationController::class, 'step2'])->name('reservation.step2');
+Route::post('/reservation/step2', [ReservationController::class, 'postStep2']);
 
 
 // Authentication Routes in breeze
