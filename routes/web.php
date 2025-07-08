@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ReservationController;
 // 
 // Route::view('/', 'welcome');
+Route::view('/pusher', 'pusher');
 
 // Route::view('dashboard', 'dashboard')
 //     ->middleware(['auth', 'verified'])

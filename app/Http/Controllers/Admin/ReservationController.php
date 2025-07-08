@@ -7,7 +7,9 @@ use App\Enums\TablesStatus;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Events\NewReservationCreated;
 
 class ReservationController extends Controller
 {
@@ -56,7 +58,11 @@ class ReservationController extends Controller
         if ($isReserved) {
             return back()->with('info', 'This table is already reserved for this day.');
         }
-         Reservation::create($request->all());
+        $reservation= Reservation::create($request->all());
+         
+        event(new NewReservationCreated($reservation));
+        Log::info('Broadcasting reservation event', ['reservation_id' => $reservation->id]);
+
         return redirect()->route('admin.reservations.index')->with('success', 'Reservation created!');
     }
 
@@ -151,7 +157,7 @@ class ReservationController extends Controller
             // If no session, redirect to step1
             return redirect()->route('reservation.step1')->with('info', 'Please complete step 1 first.');
         }
-        
+            
          $tables = Table::where('guest_number', '>=', $reservation['guest_number'])
         ->whereDoesntHave('reservations', function($query) use ($reservation) {
                $query->whereDate('res_date', Carbon::parse($reservation['res_date'])->toDateString());
@@ -176,7 +182,10 @@ class ReservationController extends Controller
 
             $finalReservationData['table_id'] = $request->table_id;
             // dd($finalReservationData);
-            Reservation::create($finalReservationData);
+         $reservation= Reservation::create($finalReservationData);
+            event(new NewReservationCreated($reservation));
+            Log::info('Broadcasting reservation event', ['reservation_id' => $reservation->id]);
+
             $request->session()->forget('reservation_data');
 
     return redirect()->route('welcome')->with('success', 'Your reservation was successful!');
