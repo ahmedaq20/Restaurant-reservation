@@ -35,10 +35,10 @@
 </head>
 
 <body>
-    <div class="container-xxl bg-white p-0">
+    <div class="p-0 bg-white container-xxl">
         <!-- Spinner Start -->
         <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            class="bg-white show position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -47,9 +47,9 @@
 
 
         <!-- Navbar & Hero Start -->
-        <div class="container-xxl position-relative p-0">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top px-4 px-lg-5 py-3 py-lg-0">                <a href="" class="navbar-brand p-0">
-                    <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+        <div class="p-0 container-xxl position-relative">
+<nav class="px-4 py-3 navbar navbar-expand-lg navbar-dark bg-dark fixed-top px-lg-5 py-lg-0">                <a href="" class="p-0 navbar-brand">
+                    <h1 class="m-0 text-primary"><i class="fa fa-utensils me-3"></i>Restoran</h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -57,14 +57,14 @@
                     <span class="fa fa-bars"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto py-0 pe-4">
+                    <div class="py-0 navbar-nav ms-auto pe-4">
                         <a href="index.html" class="nav-item nav-link active">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
                         <a href="service.html" class="nav-item nav-link">Service</a>
                         <a href="menu.html" class="nav-item nav-link">Menu</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu m-0">
+                            <div class="m-0 dropdown-menu">
                                 <a href="booking.html" class="dropdown-item">Booking</a>
                                 <a href="team.html" class="dropdown-item">Our Team</a>
                                 <a href="testimonial.html" class="dropdown-item">Testimonial</a>
@@ -72,18 +72,18 @@
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
                     </div>
-                    <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
+                    <a href="{{route('reservation.step1')}}" class="px-4 py-2 btn btn-primary">Book A Table</a>
                 </div>
             </nav>
 
                 @yield('content')
             
                 <!-- Footer Start -->
-            <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="pt-5 mt-5 container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s">
                 <div class="container py-5">
                     <div class="row g-5">
                         <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
+                            <h4 class="mb-4 section-title ff-secondary text-start text-primary fw-normal">Company</h4>
                             <a class="btn btn-link" href="">About Us</a>
                             <a class="btn btn-link" href="">Contact Us</a>
                             <a class="btn btn-link" href="">Reservation</a>
@@ -91,11 +91,11 @@
                             <a class="btn btn-link" href="">Terms & Condition</a>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
+                            <h4 class="mb-4 section-title ff-secondary text-start text-primary fw-normal">Contact</h4>
                             <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
                             <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                             <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                            <div class="d-flex pt-2">
+                            <div class="pt-2 d-flex">
                                 <a class="btn btn-outline-light btn-social" href=""><i
                                         class="fab fa-twitter"></i></a>
                                 <a class="btn btn-outline-light btn-social" href=""><i
@@ -107,21 +107,21 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Opening</h4>
+                            <h4 class="mb-4 section-title ff-secondary text-start text-primary fw-normal">Opening</h4>
                             <h5 class="text-light fw-normal">Monday - Saturday</h5>
                             <p>09AM - 09PM</p>
                             <h5 class="text-light fw-normal">Sunday</h5>
                             <p>10AM - 08PM</p>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter
+                            <h4 class="mb-4 section-title ff-secondary text-start text-primary fw-normal">Newsletter
                             </h4>
                             <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                            <div class="position-relative mx-auto" style="max-width: 400px;">
-                                <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text"
+                            <div class="mx-auto position-relative" style="max-width: 400px;">
+                                <input class="py-3 form-control border-primary w-100 ps-4 pe-5" type="text"
                                     placeholder="Your email">
                                 <button type="button"
-                                    class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                                    class="top-0 py-2 mt-2 btn btn-primary position-absolute end-0 me-2">SignUp</button>
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                 <div class="container">
                     <div class="copyright">
                         <div class="row">
-                            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            <div class="mb-3 text-center col-md-6 text-md-start mb-md-0">
                                 &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
 
                                 <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
@@ -138,7 +138,7 @@
                                 Distributed By <a class="border-bottom" href="https://themewagon.com"
                                     target="_blank">ThemeWagon</a>
                             </div>
-                            <div class="col-md-6 text-center text-md-end">
+                            <div class="text-center col-md-6 text-md-end">
                                 <div class="footer-menu">
                                     <a href="">Home</a>
                                     <a href="">Cookies</a>

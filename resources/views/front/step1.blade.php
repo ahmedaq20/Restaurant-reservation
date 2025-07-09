@@ -3,19 +3,19 @@
 
 @section('content')
 <div class="container p-5 mb-5" style="padding-top:120px;">
-    <div class="row justify-content-center mt-5">
+    <div class="mt-5 row justify-content-center">
         <div class="col-md-8">
-            <div class="bg-dark d-flex align-items-center rounded shadow">
+            <div class="rounded shadow bg-dark d-flex align-items-center">
                 <div class="p-5 w-100">
                     <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
-                    <h1 class="text-white mb-4">Book A Table Online</h1>
+                    <h1 class="mb-4 text-white">Book A Table Online</h1>
 
                     <!-- Progress Bar -->
                     <div class="mb-4">
                         <div class="progress" style="height: 8px;">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        <div class="d-flex justify-content-between mt-2">
+                        <div class="mt-2 d-flex justify-content-between">
                             <small class="text-primary fw-bold">Step 1</small>
                             <small class="text-secondary">Step 2</small>
                         </div>
@@ -126,7 +126,6 @@
                                            id="res_date"
                                            name="res_date"
                                            required
-                                           step="3600"
                                            value="{{ old('res_date', $reservation['res_date'] ?? '') }}">
                                     <label for="res_date">Reservation Date</label>
                                     @error('res_date')
@@ -135,7 +134,7 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100 py-3">Next</button>
+                                <button type="submit" class="py-3 btn btn-primary w-100">Next</button>
                             </div>
                         </div>
                     </form>
@@ -146,7 +145,7 @@
 </div>
 
 @push('scripts')
-<script>
+{{-- <script>
 document.addEventListener('DOMContentLoaded', function () {
     var resDate = document.getElementById('res_date');
     if(resDate){
@@ -165,6 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-</script>
+</script> --}}
 @endpush
 @endsection

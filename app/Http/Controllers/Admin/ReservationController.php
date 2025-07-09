@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Table;
+use App\Models\User;
 use App\Enums\TablesStatus;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -183,7 +184,10 @@ class ReservationController extends Controller
             $finalReservationData['table_id'] = $request->table_id;
             // dd($finalReservationData);
          $reservation= Reservation::create($finalReservationData);
-            event(new NewReservationCreated($reservation));
+            // event(new NewReservationCreated($reservation));
+            
+            $admin = User::where('is_admin','=', 1)->first();
+            $admin->notify(new \App\Notifications\NewReservationNotification($reservation));
             Log::info('Broadcasting reservation event', ['reservation_id' => $reservation->id]);
 
             $request->session()->forget('reservation_data');

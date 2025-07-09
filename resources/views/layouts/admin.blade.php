@@ -90,14 +90,14 @@
                     </a>
 
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-                        <i class="ti menu-toggle-icon d-none d-xl-block align-middle"></i>
-                        <i class="ti ti-x d-block d-xl-none ti-md align-middle"></i>
+                        <i class="align-middle ti menu-toggle-icon d-none d-xl-block"></i>
+                        <i class="align-middle ti ti-x d-block d-xl-none ti-md"></i>
                     </a>
                 </div>
 
                 <div class="menu-inner-shadow"></div>
 
-                <ul class="menu-inner py-1">
+                <ul class="py-1 menu-inner">
                     <!-- Dashboards -->
 
                     <!-- Layouts -->
@@ -188,7 +188,7 @@
                 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                     id="layout-navbar">
                     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <a class="px-0 nav-item nav-link me-xl-4" href="javascript:void(0)">
                             <i class="ti ti-menu-2 ti-md"></i>
                         </a>
                     </div>
@@ -196,8 +196,8 @@
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
                         <div class="navbar-nav align-items-center">
-                            <div class="nav-item navbar-search-wrapper mb-0">
-                                <a class="nav-item nav-link search-toggler d-flex align-items-center px-0"
+                            <div class="mb-0 nav-item navbar-search-wrapper">
+                                <a class="px-0 nav-item nav-link search-toggler d-flex align-items-center"
                                     href="javascript:void(0);">
                                     <i class="ti ti-search ti-md me-2 me-lg-4 ti-lg"></i>
                                     <span class="d-none d-md-inline-block text-muted fw-normal">Search (Ctrl+/)</span>
@@ -206,7 +206,7 @@
                         </div>
                         <!-- /Search -->
 
-                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <ul class="flex-row navbar-nav align-items-center ms-auto">
 
                             <!-- Style Switcher -->
                             <li class="nav-item dropdown-style-switcher dropdown">
@@ -238,6 +238,10 @@
                             <!-- / Style Switcher-->
 
                             <!-- Notification -->
+                            @php
+                                $notifications = Auth::user()->notifications()->take(10)->get();
+
+                            @endphp
                             <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
                                 <a class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
                                     href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
@@ -245,15 +249,17 @@
                                     <span class="position-relative">
                                         <i class="ti ti-bell ti-md"></i>
                                         <span
-                                            class="badge rounded-pill bg-danger badge-dot badge-notifications border"></span>
+                                            class="border badge rounded-pill bg-danger badge-dot badge-notifications"></span>
                                     </span>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end p-0">
+                                <ul class="p-0 dropdown-menu dropdown-menu-end">
                                     <li class="dropdown-menu-header border-bottom">
-                                        <div class="dropdown-header d-flex align-items-center py-3">
+                                        <div class="py-3 dropdown-header d-flex align-items-center">
                                             <h6 class="mb-0 me-auto">Notification</h6>
-                                            <div class="d-flex align-items-center h6 mb-0">
-                                                <span class="badge bg-label-primary me-2">8 New</span>
+                                            <div class="mb-0 d-flex align-items-center h6">
+                                                <span
+                                                    class="badge bg-label-primary me-2">{{ $notifications->Count() }}
+                                                    New</span>
                                                 <a href="javascript:void(0)"
                                                     class="btn btn-text-secondary rounded-pill btn-icon dropdown-notifications-all"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
@@ -264,36 +270,39 @@
                                     </li>
                                     <li class="dropdown-notifications-list scrollable-container">
                                         <ul class="list-group list-group-flush">
-                                            <li
-                                                class="list-group-item list-group-item-action dropdown-notifications-item">
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0 me-3">
-                                                        <div class="avatar">
-                                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
-                                                                class="rounded-circle" />
+
+                                            @foreach ($notifications as $notification)
+                                                <li
+                                                    class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <div class="avatar">
+                                                                <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                                                    class="rounded-circle" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="mb-1 small">New Notifications 🎉</h6>
+                                                            <small
+                                                                class="mb-1 d-block text-body">{{ $notification->data['message']}}</small>
+                                                            <small class="text-muted">1h ago</small>
+                                                        </div>
+                                                        <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                            <a href="javascript:void(0)"
+                                                                class="dropdown-notifications-read"><span
+                                                                    class="badge badge-dot"></span></a>
+                                                            <a href="javascript:void(0)"
+                                                                class="dropdown-notifications-archive"><span
+                                                                    class="ti ti-x"></span></a>
                                                         </div>
                                                     </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
-                                                        <small class="mb-1 d-block text-body">Won the monthly best
-                                                            seller gold badge</small>
-                                                        <small class="text-muted">1h ago</small>
-                                                    </div>
-                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
-                                                        <a href="javascript:void(0)"
-                                                            class="dropdown-notifications-read"><span
-                                                                class="badge badge-dot"></span></a>
-                                                        <a href="javascript:void(0)"
-                                                            class="dropdown-notifications-archive"><span
-                                                                class="ti ti-x"></span></a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        
+                                                </li>
+                                            @endforeach
+
                                         </ul>
                                     </li>
                                     <li class="border-top">
-                                        <div class="d-grid p-4">
+                                        <div class="p-4 d-grid">
                                             <a class="btn btn-primary btn-sm d-flex" href="javascript:void(0);">
                                                 <small class="align-middle">View all notifications</small>
                                             </a>
@@ -305,7 +314,7 @@
 
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                                <a class="p-0 nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
                                         <img src="{{ asset('assets/img/avatars/1.png') }}" alt
@@ -314,7 +323,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        <a class="dropdown-item mt-0" href="pages-account-settings-account.html">
+                                        <a class="mt-0 dropdown-item" href="pages-account-settings-account.html">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0 me-2">
                                                     <div class="avatar avatar-online">
@@ -332,7 +341,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <div class="dropdown-divider my-1 mx-n2"></div>
+                                        <div class="my-1 dropdown-divider mx-n2"></div>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="">
@@ -348,9 +357,9 @@
                                     {{--                                </li> --}}
                                     {{--                                <li> --}}
                                     {{--                                    <a class="dropdown-item" href="pages-account-settings-billing.html"> --}}
-                                    {{--                        <span class="d-flex align-items-center align-middle"> --}}
+                                    {{--                        <span class="align-middle d-flex align-items-center"> --}}
                                     {{--                          <i class="flex-shrink-0 ti ti-file-dollar me-3 ti-md"></i --}}
-                                    {{--                          ><span class="flex-grow-1 align-middle">Billing</span> --}}
+                                    {{--                          ><span class="align-middle flex-grow-1">Billing</span> --}}
                                     {{--                          <span class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center" --}}
                                     {{--                          >4</span --}}
                                     {{--                          > --}}
@@ -358,7 +367,7 @@
                                     {{--                                    </a> --}}
                                     {{--                                </li> --}}
                                     {{--                                <li> --}}
-                                    {{--                                    <div class="dropdown-divider my-1 mx-n2"></div> --}}
+                                    {{--                                    <div class="my-1 dropdown-divider mx-n2"></div> --}}
                                     {{--                                </li> --}}
                                     {{--                                <li> --}}
                                     {{--                                    <a class="dropdown-item" href="pages-pricing.html"> --}}
@@ -374,7 +383,7 @@
                                         <form method="POST" action="">
                                             @csrf
 
-                                            <div class="d-grid px-2 pt-2 pb-1">
+                                            <div class="px-2 pt-2 pb-1 d-grid">
                                                 <a class="btn btn-sm btn-danger d-flex" href=""
                                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();"
@@ -393,9 +402,9 @@
 
                     <!-- Search Small Screens -->
                     <div class="navbar-search-wrapper search-input-wrapper d-none">
-                        <input type="text" class="form-control search-input container-xxl border-0"
+                        <input type="text" class="border-0 form-control search-input container-xxl"
                             placeholder="Search..." aria-label="Search..." />
-                        <i class="ti ti-x search-toggler cursor-pointer"></i>
+                        <i class="cursor-pointer ti ti-x search-toggler"></i>
                     </div>
                 </nav>
 
@@ -414,7 +423,7 @@
                     <footer class="content-footer footer bg-footer-theme">
                         <div class="container-xxl">
                             <div
-                                class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
+                                class="py-4 footer-container d-flex align-items-center justify-content-between flex-md-row flex-column">
                                 <div class="text-body">
                                     made with ❤️ by <a href="" target="_blank" class="footer-link">Ahmed
                                         Qwaider</a> ,
@@ -474,76 +483,20 @@
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 
-
+    <script>
+    window.userId = {{ Auth::id() }};
+    </script>
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Page JS -->
 
-    {{-- live notifications --}}
-    <script>
-        // صوت تنبيه
-        const audio = new Audio('{{ asset('sounds/notification.mp3') }}');
 
-        // العنصر الرئيسي
-        const notificationsList = document.querySelector('.dropdown-notifications-list ul');
-        const badge = document.querySelector('.badge-notifications');
-        let newCount = 0;
-
-        Echo.channel('reservations')
-            .listen('.new-reservation', (e) => {
-                const res = e.reservation;
-
-                // الصوت
-                audio.play();
-
-                // إشعار المتصفح
-                if (Notification.permission === "granted") {
-                    new Notification("حجز جديد", {
-                        body: `${res.first_name} قام بحجز طاولة.`,
-                        icon: '{{ asset('assets/img/avatars/1.png') }}'
-                    });
-                }
-
-                // تحديث قائمة الإشعارات
-                const newItem = `
-                <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
-                            <div class="avatar">
-                                <img src="{{ asset('assets/img/avatars/1.png') }}" class="rounded-circle" alt="">
-                            </div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 small">New Reservation ✨</h6>
-                            <small class="mb-1 d-block text-body">${res.first_name} ${res.last_name} booked a table for ${res.guest_number} guests.</small>
-                            <small class="text-muted">just now</small>
-                        </div>
-                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
-                        </div>
-                    </div>
-                </li>
-            `;
-                notificationsList.insertAdjacentHTML('afterbegin', newItem);
-
-                // تحديث الـ badge
-                newCount++;
-                badge.classList.add('show');
-                badge.innerHTML = newCount;
-            });
-
-        // طلب إذن الإشعارات
-        if (Notification.permission !== "granted") {
-            Notification.requestPermission();
-        }
-    </script>
 
 
     @stack('js')
 
-    
+
 
 </body>
 
