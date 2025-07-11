@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('admin', function ($user) {
-    // هنا نسمح فقط للـ Admin
+// Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+//     return (int) $user->id === (int) $id;
+// });
+
+
+Broadcast::channel('admin',  function ($user) {
     return $user->is_admin === true;
 });

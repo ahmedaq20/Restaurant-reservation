@@ -7,8 +7,8 @@
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('7d5193d0fc02ececbcf4', {
-      cluster: 'ap1'
+    var pusher = new Pusher('d033176dc6cbebadda9f', {
+      cluster: 'ap2'
     });
 
     var channel = pusher.subscribe('reservations');

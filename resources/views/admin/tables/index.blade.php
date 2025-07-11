@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 @section('page-title', 'Tables')
+
+@php
+    use  App\Enums\TablesStatus;
+@endphp
 @section('content')
     <div class="container">
 
@@ -44,7 +48,7 @@
                 }, 5000);
             </script>
         @endif
-        <a href="{{ route('admin.tables.create') }}" class="btn btn-primary mb-3">New Table</a>
+        <a href="{{ route('admin.tables.create') }}" class="mb-3 btn btn-primary">New Table</a>
         <table class="table">
             <thead>
                 <tr>
@@ -63,8 +67,8 @@
                         <td>
                             <span
                                 class="badge 
-                                @if ($table->status == 'available') bg-success
-                                @elseif($table->status == 'reserved') bg-warning
+                                @if ($table->status ==  TablesStatus::AVAILABLE) bg-success
+                                @elseif($table->status ==  TablesStatus::RESERVED) bg-warning
                                 @else bg-danger @endif">
                                 {{ ucfirst($table->status->value) }}
                             </span>
@@ -86,5 +90,8 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="mt-4 d-flex justify-content-start">
+            {{ $tables->links() }}
+        </div>
     </div>
 @endsection

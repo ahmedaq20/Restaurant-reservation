@@ -47,7 +47,7 @@
             </script>
         @endif
 
-        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">New Category</a>
+        <a href="{{ route('admin.categories.create') }}" class="mb-3 btn btn-primary">New Category</a>
         <table class="table">
             <thead>
                 <tr>
@@ -80,5 +80,8 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="mt-4 d-flex justify-content-start">
+            {{ $categories->links() }}
+        </div>
     </div>
 @endsection

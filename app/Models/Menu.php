@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
-    protected $fillable =['name','description','price','image'];
+    protected $fillable =['name','description','price','image','meal_type'];
 
      // Accessor for image URL
     public function getImageUrlAttribute()

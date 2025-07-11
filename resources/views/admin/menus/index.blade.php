@@ -44,13 +44,14 @@
                 }, 5000);
             </script>
         @endif
-        <a href="{{ route('admin.menus.create') }}" class="btn btn-primary mb-3">New Menu</a>
+        <a href="{{ route('admin.menus.create') }}" class="mb-3 btn btn-primary">New Menu</a>
         <table class="table">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Image</th>
+                    <th>Meal Type</th>
                     <th>Price</th>
                     <th>Actions</th>
                 </tr>
@@ -65,6 +66,7 @@
                                 <img src="{{ $menu->image_url }}" width="50">
                             @endif
                         </td>
+                        <td>{{ $menu->meal_type ?? 'genral' }}</td>
                         <td>{{ number_format($menu->price, 2) }} $</td>
                         <td>
                             <a href="{{ route('admin.menus.edit', $menu) }}" class="btn btn-sm btn-warning">Edit</a>
@@ -82,5 +84,9 @@
                 @endforelse
             </tbody>
         </table>
+
+        <div class="mt-4 d-flex justify-content-start">
+            {{ $menus->links() }}
+        </div>
     </div>
 @endsection

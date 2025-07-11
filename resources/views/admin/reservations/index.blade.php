@@ -2,7 +2,7 @@
 @section('page-title', 'Reservations')
 @section('content')
     <div class="container">
-        <a href="{{ route('admin.reservations.create') }}" class="btn btn-primary mb-3">New Reservation</a>
+        <a href="{{ route('admin.reservations.create') }}" class="mb-3 btn btn-primary">New Reservation</a>
         @if (session('success'))
             <div class="alert alert-success alert-dismissible" role="alert">
                 {{ session('success') }}
@@ -61,5 +61,8 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="mt-4 d-flex justify-content-start">
+            {{ $reservations->links() }}
+        </div>
     </div>
 @endsection

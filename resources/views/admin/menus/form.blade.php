@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 @section('page-title', $menu->exists ? 'Update Menu' : 'Create Menu')
 
+@php
+    use App\Enums\MealType;
+@endphp
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
 @endsection
@@ -65,9 +69,23 @@
                 <div>
                     <img id="imagePreview"
                         src="{{ $menu->image && $menu->exists ? asset('storage/' . $menu->image) : '' }}" alt="Preview"
-                        class="img-thumbnail mt-2" width="100"
+                        class="mt-2 img-thumbnail" width="100"
                         style="{{ $menu->image && $menu->exists ? '' : 'display:none;' }}">
                 </div>
+            </div>
+            <div class="mb-3">
+                <label>Meal Type</label>
+                <select name="meal_type" class="form-select" required>
+                    @foreach (MealType::cases() as $Meal)
+                        <option value="{{ $Meal->value }}"
+                            {{ old('status', $menu->meal_type) == $Meal->value ? 'selected' : '' }}>
+                            {{ ucfirst($Meal->value) }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('meal_type')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
             <div class="mb-3">
                 <label>Price</label>

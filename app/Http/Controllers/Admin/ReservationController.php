@@ -19,7 +19,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::with('table')->latest()->get();
+        $reservations = Reservation::with('table')->latest()->paginate(10);
         return view('admin.reservations.index', compact('reservations'));
     }
 

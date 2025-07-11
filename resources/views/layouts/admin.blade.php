@@ -237,10 +237,10 @@
                             </li>
                             <!-- / Style Switcher-->
 
-                            <!-- Notification -->
                             @php
-                                $notifications = Auth::user()->notifications()->take(10)->get();
-
+                                $notifications = Auth::check()
+                                    ? Auth::user()->unreadNotifications()->take(10)->get()
+                                    : collect();
                             @endphp
                             <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
                                 <a class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
@@ -248,8 +248,8 @@
                                     aria-expanded="false">
                                     <span class="position-relative">
                                         <i class="ti ti-bell ti-md"></i>
-                                        <span
-                                            class="border badge rounded-pill bg-danger badge-dot badge-notifications"></span>
+                                        <span id="notification-badge" {{-- ADDED THIS ID --}}
+                                            class="border badge rounded-pill @if ($notifications->count() > 0) bg-danger @else bg-success @endif badge-dot badge-notifications"></span>
                                     </span>
                                 </a>
                                 <ul class="p-0 dropdown-menu dropdown-menu-end">
@@ -257,10 +257,10 @@
                                         <div class="py-3 dropdown-header d-flex align-items-center">
                                             <h6 class="mb-0 me-auto">Notification</h6>
                                             <div class="mb-0 d-flex align-items-center h6">
-                                                <span
-                                                    class="badge bg-label-primary me-2">{{ $notifications->Count() }}
+                                                <span id="notification-count" {{-- ADDED THIS ID --}}
+                                                    class="badge bg-label-primary me-2">{{ $notifications->count() }}
                                                     New</span>
-                                                <a href="javascript:void(0)"
+                                                <a href="javascript:void(0);" {{-- CHANGED TO JAVASCRIPT:VOID(0) --}}
                                                     class="btn btn-text-secondary rounded-pill btn-icon dropdown-notifications-all"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Mark all as read"><i
@@ -269,11 +269,12 @@
                                         </div>
                                     </li>
                                     <li class="dropdown-notifications-list scrollable-container">
-                                        <ul class="list-group list-group-flush">
+                                        <ul class="list-group list-group-flush" id="notification-list">
+                                            {{-- ADDED THIS ID --}}
 
-                                            @foreach ($notifications as $notification)
-                                                <li
-                                                    class="list-group-item list-group-item-action dropdown-notifications-item">
+                                            @forelse ($notifications as $notification)
+                                                <li class="list-group-item list-group-item-action dropdown-notifications-item {{ $notification->read_at ? '' : 'bg-label-primary' }}"
+                                                    data-id="{{ $notification->id }}">
                                                     <div class="d-flex">
                                                         <div class="flex-shrink-0 me-3">
                                                             <div class="avatar">
@@ -282,28 +283,44 @@
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="mb-1 small">New Notifications 🎉</h6>
+                                                            <h6 class="mb-1 small">New Reservation 🎉</h6>
+                                                            <small class="mb-1 d-block text-body">
+                                                                New reservation by
+                                                                **{{ $notification->data['first_name'] }}
+                                                                {{ $notification->data['last_name'] }}** for table
+                                                                **{{ $notification->data['table_name'] }}** on
+                                                                **{{ $notification->data['res_date'] }}**.
+                                                            </small>
                                                             <small
-                                                                class="mb-1 d-block text-body">{{ $notification->data['message']}}</small>
-                                                            <small class="text-muted">1h ago</small>
+                                                                class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
                                                         </div>
                                                         <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                            @if (!$notification->read_at)
+                                                                <a href="javascript:void(0)"
+                                                                    class="dropdown-notifications-read"
+                                                                    data-id="{{ $notification->id }}"><span
+                                                                        class="badge badge-dot"></span></a>
+                                                            @endif
                                                             <a href="javascript:void(0)"
-                                                                class="dropdown-notifications-read"><span
-                                                                    class="badge badge-dot"></span></a>
-                                                            <a href="javascript:void(0)"
-                                                                class="dropdown-notifications-archive"><span
+                                                                class="dropdown-notifications-archive"
+                                                                data-id="{{ $notification->id }}"><span
                                                                     class="ti ti-x"></span></a>
                                                         </div>
                                                     </div>
                                                 </li>
-                                            @endforeach
+                                            @empty
+                                                <li class="list-group-item">
+                                                    <p class="text-center text-muted m-0">No new notifications.</p>
+                                                </li>
+                                            @endforelse
 
                                         </ul>
                                     </li>
                                     <li class="border-top">
                                         <div class="p-4 d-grid">
-                                            <a class="btn btn-primary btn-sm d-flex" href="javascript:void(0);">
+                                            {{-- Make sure this links to your actual "View All Notifications" page --}}
+                                            <a class="btn btn-primary btn-sm d-flex"
+                                                href="{{ route('admin.notifications.index') }}"> {{-- CHANGED TO ACTUAL ROUTE --}}
                                                 <small class="align-middle">View all notifications</small>
                                             </a>
                                         </div>
@@ -484,10 +501,11 @@
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 
     <script>
-    window.userId = {{ Auth::id() }};
+        window.userId = {{ Auth::id() }};
     </script>
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    @vite(['resources/js/app.js'])
 
     <!-- Page JS -->
 
