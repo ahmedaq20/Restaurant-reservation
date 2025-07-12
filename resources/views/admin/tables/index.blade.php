@@ -66,9 +66,9 @@
                         <td>{{ $table->guest_number }}</td>
                         <td>
                             <span
-                                class="badge 
+                                class="badge
                                 @if ($table->status ==  TablesStatus::AVAILABLE) bg-success
-                                @elseif($table->status ==  TablesStatus::RESERVED) bg-warning
+                                @elseif($table->status == TablesStatus::RESERVED) bg-warning
                                 @else bg-danger @endif">
                                 {{ ucfirst($table->status->value) }}
                             </span>

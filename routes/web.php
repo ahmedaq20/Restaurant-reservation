@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Front\WelcomeController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -30,6 +31,7 @@ Route::middleware(['auth','admin'])->name('admin.')->prefix('admin')->group(func
         Route::resource('menus', MenuController::class)->names('menus');
         Route::resource('tables', TableController::class)->names('tables');
         Route::resource('reservations', ReservationController::class)->names('reservations');
+        Route::resource('staffs', StaffController::class)->names('staffs');
 
      // --- Notification Routes (New) ---
     Route::prefix('notifications')->name('notifications.')->group(function () {
@@ -41,11 +43,11 @@ Route::middleware(['auth','admin'])->name('admin.')->prefix('admin')->group(func
             return view('admin.notifications.index', compact('notifications'));
         })->name('index');
 
-        // Mark all notifications as read
-        Route::post('/mark-all-as-read', function (Request $request) {
-            auth()->user()->unreadNotifications->markAsRead();
-            return response()->json(['success' => true, 'message' => 'All notifications marked as read.']);
-        })->name('mark-all-as-read');
+            // Mark all notifications as read
+            Route::post('/mark-all-as-read', function (Request $request) {
+                auth()->user()->unreadNotifications->markAsRead();
+                return response()->json(['success' => true, 'message' => 'All notifications marked as read.']);
+            })->name('mark-all-as-read');
 
         // Mark a single notification as read
         Route::post('/{id}/mark-as-read', function (Request $request, $id) {

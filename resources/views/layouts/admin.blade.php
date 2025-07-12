@@ -260,11 +260,14 @@
                                                 <span id="notification-count" {{-- ADDED THIS ID --}}
                                                     class="badge bg-label-primary me-2">{{ $notifications->count() }}
                                                     New</span>
-                                                <a href="javascript:void(0);" {{-- CHANGED TO JAVASCRIPT:VOID(0) --}}
+                                                <a href="#"
                                                     class="btn btn-text-secondary rounded-pill btn-icon dropdown-notifications-all"
+                                                    onclick="event.preventDefault(); markAllNotificationsAsRead();"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Mark all as read"><i
-                                                        class="ti ti-mail-opened text-heading"></i></a>
+                                                    title="Mark all as read">
+                                                    <i class="ti ti-mail-opened text-heading"></i>
+                                                </a>
+
                                             </div>
                                         </div>
                                     </li>
@@ -505,6 +508,21 @@
     </script>
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script>
+    function markAllNotificationsAsRead() {
+        axios.post('{{ route('admin.notifications.mark-all-as-read') }}')
+            .then(response => {
+                if (response.data.success) {
+                    // مثلا تحدث صفحة الإشعارات أو تبدل لون الأيقونة
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+</script>
+
     @vite(['resources/js/app.js'])
 
     <!-- Page JS -->
