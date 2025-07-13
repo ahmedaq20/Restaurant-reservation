@@ -47,4 +47,6 @@ class User extends Authenticatable
             'is_admin' => 'boolean', 
         ];
     }
+
+   
 }

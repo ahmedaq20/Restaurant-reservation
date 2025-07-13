@@ -53,6 +53,8 @@
                         <td>
                             <a href="{{ route('admin.staffs.edit', $staff) }}"
                                 class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ route('admin.staffs.show', $staff) }}"
+                                class="btn btn-sm btn-primary">Show</a>
                             <form action="{{ route('admin.staffs.destroy', $staff) }}" method="POST"
                                 style="display:inline;">
                                 @csrf @method('DELETE')

@@ -526,10 +526,8 @@
     @vite(['resources/js/app.js'])
 
     <!-- Page JS -->
-
-
-
-
+    
+    {{-- anthoer js form deferant page --}}
     @stack('js')
 
 
