@@ -71,6 +71,7 @@
 
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
+    @livewireStyles
 </head>
 
 <body>
@@ -522,8 +523,9 @@
             });
     }
 </script>
-
-    @vite(['resources/js/app.js'])
+@livewireScripts
+<script src="//unpkg.com/alpinejs" defer></script>
+@vite(['resources/js/app.js'])
 
     <!-- Page JS -->
     

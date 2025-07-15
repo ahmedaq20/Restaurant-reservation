@@ -27,8 +27,8 @@ class Staff extends Model
         return asset('images/default-image.png');
     }
 
-    protected $casts=[
-        'role' => StaffRole::class,
-    ];
+    // protected $casts=[
+    //     'role' => StaffRole::class,
+    // ];
 
 }
