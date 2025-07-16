@@ -23,7 +23,7 @@
             </div>
         @endif
 
-<livewire:table-index :model-class="\App\Models\Staff::class" />
+<livewire:table-index modelRoute="staffs" :model-class="\App\Models\Staff::class" />
 
         <div class="mt-4 d-flex justify-content-start">
             {{ $staffs->links() }}

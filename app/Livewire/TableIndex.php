@@ -10,12 +10,12 @@ class TableIndex extends Component
 
      use withPagination;
     
-    public $modelId;
     public $modelClass;
+    public $id;
 
     public  $confirming = false;
     public $message = '';
-    
+    public string $modelRoute;
      public function mount($modelClass)
     {
         
@@ -23,35 +23,28 @@ class TableIndex extends Component
         
     }
 
-    
-    // Add this property for event listening reliability
-    // protected $listeners = ['showDeleteModal' => 'openModal'];
-    // #[On('openModal')]
-    public function openModal($id)
-    {
-         $this->modelId = $id;
-        $this->confirming = true;
+    public function confirmDelete($id){
+        $this->id = $id;
     }
-
+    
     public function delete()
     {
-        
-        if (!$this->modelClass || !$this->modelId) {
-            $this->confirming = false;
-            return;
-        }
-
-        $model = $this->modelClass::find($this->modelId);
-
+       
+        $model = $this->modelClass::find($this->id);
         if ($model) {
+
+            // dd('1');
             $model->delete();
             $this->message = 'Item deleted successfully.';
-            $this->dispatch('staffDeleted');
+            // $this->dispatch('staffDeleted');
         } else {
+
+            // dd('2');
             $this->message = 'Item not found.';
         }
-        session()->flash('deleted', 'Staff deleted successfully.');
-        $this->confirming = false;
+    session()->flash('deleted', $this->message);
+        
+      $this->dispatch('close-modal');
     }
 
     public function render()

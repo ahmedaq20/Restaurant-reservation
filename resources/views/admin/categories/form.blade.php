@@ -35,6 +35,9 @@
                         width="100"
                         style="{{ $category->image ? '' : 'display:none;' }}">
                 </div>
+                 @error('image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
             <button class="btn {{ $category->exists ? 'btn-success' : 'btn-primary' }}">
                 {{ $category->exists ? 'Update' : 'Create' }}

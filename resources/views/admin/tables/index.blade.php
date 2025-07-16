@@ -49,47 +49,12 @@
             </script>
         @endif
         <a href="{{ route('admin.tables.create') }}" class="mb-3 btn btn-primary">New Table</a>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Guest Number</th>
-                    <th>Status</th>
-                    <th>Location</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($tables as $table)
-                    <tr>
-                        <td>{{ $table->name }}</td>
-                        <td>{{ $table->guest_number }}</td>
-                        <td>
-                            <span
-                                class="badge
-                                @if ($table->status ==  TablesStatus::AVAILABLE) bg-success
-                                @elseif($table->status == TablesStatus::RESERVED) bg-warning
-                                @else bg-danger @endif">
-                                {{ ucfirst($table->status->value) }}
-                            </span>
-                        </td>
-                        <td>{{ $table->location ?? '-' }}</td>
-                        <td>
-                            <a href="{{ route('admin.tables.edit', $table) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('admin.tables.destroy', $table) }}" method="POST"
-                                style="display:inline;">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center">No tables found</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+        
+        {{-- Livewire Table Component --}}
+            <livewire:table-index modelRoute="tabels" :model-class="\App\Models\Table::class" />
+
+
+
         <div class="mt-4 d-flex justify-content-start">
             {{ $tables->links() }}
         </div>

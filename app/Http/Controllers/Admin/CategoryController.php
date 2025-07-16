@@ -34,15 +34,16 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:10240', // 10MB max
         ]);
 
+        dd($data);
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('categories', 'public');
         }
 
         Category::create($data);
-
+        dd('hi');
         return redirect()->route('admin.categories.index')->with('success', 'Category created!');
     }
 
@@ -71,7 +72,7 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:10240',
         ]);
 
         if ($request->hasFile('image')) {

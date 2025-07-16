@@ -48,38 +48,11 @@
         @endif
 
         <a href="{{ route('admin.categories.create') }}" class="mb-3 btn btn-primary">New Category</a>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $category)
-                    <tr>
-                        <td>{{ $category->name }}</td>
-                        <td>{{ $category->description }}</td>
-                        <td>
-                            @if ($category->image_url)
-                                <img src="{{  $category->image_url }}" width="50">
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('admin.categories.edit', $category) }}"
-                                class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
-                                style="display:inline;">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+  
+           {{-- Livewire Table Component --}}
+            <livewire:table-index modelRoute="categories" :model-class="\App\Models\Category::class" />
+
+
         <div class="mt-4 d-flex justify-content-start">
             {{ $categories->links() }}
         </div>

@@ -45,45 +45,9 @@
             </script>
         @endif
         <a href="{{ route('admin.menus.create') }}" class="mb-3 btn btn-primary">New Menu</a>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                    <th>Meal Type</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($menus as $menu)
-                    <tr>
-                        <td>{{ $menu->name }}</td>
-                        <td>{{ $menu->description }}</td>
-                        <td>
-                            @if ($menu->image_url)
-                                <img src="{{ $menu->image_url }}" width="50">
-                            @endif
-                        </td>
-                        <td>{{ $menu->meal_type ?? 'genral' }}</td>
-                        <td>{{ number_format($menu->price, 2) }} $</td>
-                        <td>
-                            <a href="{{ route('admin.menus.edit', $menu) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('admin.menus.destroy', $menu) }}" method="POST"
-                                style="display:inline;">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center">No menus found</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+        
+        {{-- Livewire Table Component --}}
+            <livewire:table-index modelRoute="menus" :model-class="\App\Models\Menu::class" />
 
         <div class="mt-4 d-flex justify-content-start">
             {{ $menus->links() }}
