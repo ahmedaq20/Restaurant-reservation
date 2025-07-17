@@ -9,7 +9,7 @@ class TableIndex extends Component
 {
 
      use withPagination;
-    
+
     public $modelClass;
     public $id;
 
@@ -18,33 +18,37 @@ class TableIndex extends Component
     public string $modelRoute;
      public function mount($modelClass)
     {
-        
+
         $this->modelClass = $modelClass;
-        
+
     }
 
     public function confirmDelete($id){
         $this->id = $id;
     }
-    
+
     public function delete()
     {
-       
+
         $model = $this->modelClass::find($this->id);
         if ($model) {
-
-            // dd('1');
             $model->delete();
             $this->message = 'Item deleted successfully.';
             // $this->dispatch('staffDeleted');
         } else {
 
-            // dd('2');
             $this->message = 'Item not found.';
         }
-    session()->flash('deleted', $this->message);
-        
-      $this->dispatch('close-modal');
+        // notify()->success('Laravel Notify is awesome!');
+
+        session()->flash('deleted', $this->message);
+
+        $this->resetPage();
+        $this->id = null;
+
+        // Close modal
+        $this->dispatch('close-modal');
+
     }
 
     public function render()

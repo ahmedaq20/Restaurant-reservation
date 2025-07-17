@@ -37,13 +37,12 @@ class CategoryController extends Controller
             'image' => 'nullable|image|max:10240', // 10MB max
         ]);
 
-        dd($data);
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('categories', 'public');
         }
 
         Category::create($data);
-        dd('hi');
+        notify()->success('Category created!');
         return redirect()->route('admin.categories.index')->with('success', 'Category created!');
     }
 
@@ -80,6 +79,7 @@ class CategoryController extends Controller
         }
 
         $category->update($data);
+        notify()->success('Laravel Notify is awesome!');
 
         return redirect()->route('admin.categories.index')->with('updated', 'Category updated!');
     }

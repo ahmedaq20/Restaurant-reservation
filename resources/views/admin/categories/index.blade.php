@@ -4,8 +4,8 @@
     <div class="container">
         {{-- Debug: Show all session data --}}
         {{-- <pre>{{ print_r(session()->all(), true) }}</pre> --}}
-
-        {{-- Alerts --}}
+{{-- 
+        
         @if (session('success'))
             <div class="alert alert-success alert-dismissible show" role="alert">
                 {{ session('success') }}
@@ -45,7 +45,7 @@
                     });
                 }, 5000);
             </script>
-        @endif
+        @endif --}}
 
         <a href="{{ route('admin.categories.create') }}" class="mb-3 btn btn-primary">New Category</a>
   

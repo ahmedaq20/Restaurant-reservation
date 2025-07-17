@@ -71,6 +71,18 @@
 
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
+
+    @notifyCss
+    <style>
+        .notify { /* Or .notifyjs-corner, or similar */
+    z-index: 9999 !important; /* The !important ensures it overrides other styles */
+}
+
+/* You might also need to adjust margin-top if it's too close to the top edge */
+.notify {
+    margin-top: 60px; /* Adjust as needed */
+}
+    </style>
     @livewireStyles
 </head>
 
@@ -185,7 +197,7 @@
             <!-- Layout container -->
             <div class="layout-page">
                 <!-- Navbar -->
-
+             
                 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                     id="layout-navbar">
                     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
@@ -400,6 +412,7 @@
                                     {{--                                        <i class="ti ti-question-mark me-3 ti-md"></i><span class="align-middle">FAQ</span> --}}
                                     {{--                                    </a> --}}
                                     {{--                                </li> --}}
+                                    
                                     <li>
                                         <form method="POST" action="">
                                             @csrf
@@ -421,6 +434,7 @@
                         </ul>
                     </div>
 
+                    
                     <!-- Search Small Screens -->
                     <div class="navbar-search-wrapper search-input-wrapper d-none">
                         <input type="text" class="border-0 form-control search-input container-xxl"
@@ -430,12 +444,16 @@
                 </nav>
 
                 <!-- / Navbar -->
+                
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
+                       {{-- alerts --}}
+                         @include('notify::components.notify')
+            
                         @yield('content')
                     </div>
                     <!-- / Content -->
@@ -509,6 +527,8 @@
     </script>
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+     @notifyJs
+
     <script>
     function markAllNotificationsAsRead() {
         axios.post('{{ route('admin.notifications.mark-all-as-read') }}')
@@ -531,7 +551,18 @@
     
     {{-- anthoer js form deferant page --}}
     @stack('js')
-
+   @if (session('success') || session('updated') || session('deleted') || session('warning'))
+            <script>
+                setTimeout(function() {
+                    let alerts = document.querySelectorAll('.alert-dismissible');
+                    alerts.forEach(function(alert) {
+                        alert.classList.remove('show');
+                        alert.classList.add('fade');
+                        setTimeout(() => alert.remove(), 500);
+                    });
+                }, 5000);
+            </script>
+        @endif
 
 
 </body>

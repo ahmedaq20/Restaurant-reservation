@@ -1,5 +1,15 @@
 <div>
 
+
+    <div class="mb-2">
+        @if (session('deleted'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                {{ session('deleted') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </div>
+
     @if (session('success') || session('updated') || session('deleted') || session('info'))
         <script>
             setTimeout(function () {
@@ -13,14 +23,6 @@
             }, 5000);
         </script>
     @endif
-    <div class="mb-2">
-        @if (session('deleted'))
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                {{ session('deleted') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-    </div>
 
     <table class="table">
         <thead>
@@ -66,7 +68,7 @@
                             </button> --}}
 
                             <button wire:click="confirmDelete({{ $item->id }})" data-bs-toggle="modal"
-                                data-bs-target="#deleteModall" class="btn btn-sm btn-danger">
+                                data-bs-target="#deleteModal" class="btn btn-sm btn-danger">
                                 Delete
                             </button>
                         </div>
@@ -81,7 +83,8 @@
     </table>
 
     {{-- Modal for Delete Confirmation --}}
-    <div class="modal fade" id="deleteModall" tabindex="-1" aria-hidden="true" style="background: rgba(0,0,0,0.5);">
+    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true"
+        style="background: rgba(0,0,0,0.5);">
         {{-- Add 'modal-dialog-centered' to this div --}}
         <div class="modal-dialog modal-dialog-centered modal-delete-Modall">
             <div class="modal-content">
@@ -108,3 +111,12 @@
 
 
 </div>
+
+<script>
+    window.addEventListener('close-modal', event => {
+        var modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+        if (modal) {
+            modal.hide();
+        }
+    });
+</script>
