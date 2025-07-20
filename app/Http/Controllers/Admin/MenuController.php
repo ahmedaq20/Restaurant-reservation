@@ -39,6 +39,7 @@ class MenuController extends Controller
             'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
+            
         ]);
 
         if ($request->hasFile('image')) {
@@ -46,10 +47,10 @@ class MenuController extends Controller
         }
 
       $menu=Menu::create($data);
-    
-      $menu->categories()->sync($request->input('categories', []));
 
-        return redirect()->route('admin.menus.index')->with('success', 'Menu created!');
+      $menu->categories()->sync($request->input('categories', []));
+        return redirect()->back()->with('success', 'Menu created successfully!');
+        // return redirect()->route('admin.menus.index')->with('success', 'Menu created!');
     }
 
     /**
@@ -87,7 +88,7 @@ class MenuController extends Controller
 
         $menu->update($data);
         $menu->categories()->sync($request->input('categories', []));
-        
+
         return redirect()->route('admin.menus.index')->with('updated', 'Menu updated!');
     }
 

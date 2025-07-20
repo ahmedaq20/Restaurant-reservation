@@ -34,6 +34,7 @@ class TableIndex extends Component
         if ($model) {
             $model->delete();
             $this->message = 'Item deleted successfully.';
+            $this->id = null;
             // $this->dispatch('staffDeleted');
         } else {
 
@@ -44,10 +45,11 @@ class TableIndex extends Component
         session()->flash('deleted', $this->message);
 
         $this->resetPage();
-        $this->id = null;
 
-        // Close modal
+
+         // Close modal
         $this->dispatch('close-modal');
+            // $this->dispatchBrowserEvent('close-modal');
 
     }
 

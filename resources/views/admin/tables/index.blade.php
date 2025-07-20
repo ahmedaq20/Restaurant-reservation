@@ -49,9 +49,9 @@
             </script>
         @endif
         <a href="{{ route('admin.tables.create') }}" class="mb-3 btn btn-primary">New Table</a>
-        
+
         {{-- Livewire Table Component --}}
-            <livewire:table-index modelRoute="tabels" :model-class="\App\Models\Table::class" />
+            <livewire:table-index modelRoute="tables" :model-class="\App\Models\Table::class" />
 
 
 
